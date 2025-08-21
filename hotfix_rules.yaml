@@ -40,10 +40,10 @@ groups:
     match:
       method: "exact"
       tables:
-        - "AthenaLootPackages_Client"
-        - "LootCurrentSeasonLootPackages_Client"
-        - "AthenaLootTierData_Client"
-        - "LootCurrentSeasonLootTierData_Client"
+        - "/Game/Items/Datatables/AthenaLootPackages_Client"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootPackages_Client"
+        - "/Game/Items/Datatables/AthenaLootTierData_Client"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootTierData_Client"
     ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
     cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/BR/作業用/BR.py"]
 
@@ -52,12 +52,10 @@ groups:
     match:
       method: "exact"
       tables:
-        - "AthenaLootPackages_Client"
-        - "AthenaLootTierData_Client"
-        - "LootCurrentSeasonLootPackages_Client"
-        - "LootCurrentSeasonLootPackages_Client_Comp"
-        - "LootCurrentSeasonLootTierData_Client"
-        - "LootCurrentSeasonLootTierData_Client_Comp"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootPackages_Client"
+        - "/LootCurrentSeason/DataTables/Comp/LootCurrentSeasonLootPackages_Client_Comp"
+        - "LootCurrentSeasonL/LootCurrentSeason/DataTables/LootCurrentSeasonLootTierData_ClientootPackages_Client"
+        - "/LootCurrentSeason/DataTables/Comp/LootCurrentSeasonLootTierData_Client_Comp"
     ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
     cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/BR_Comp/作業用/BR_Comp.py"]
 
@@ -66,9 +64,9 @@ groups:
     match:
       method: "exact"
       tables:
-        - "ForbiddenFruitChapterLootPackages"
+        - "/ForbiddenFruitDataTables/DataTables/ForbiddenFruitChapterLootPackages"
         - "AthenaLootPackages_Client_ForbiddenFruitChapterOverride_NoBuild"
-        - "ForbiddenFruitChapterLootTierData"
+        - "/ForbiddenFruitDataTables/DataTables/ForbiddenFruitChapterLootTierData"
         - "AthenaLootTierData_Client_ForbiddenFruitChapterOverride_NoBuild"
     ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
     cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/ForbiddenFruit/作業用/ForbiddenFruit.py"]
@@ -78,14 +76,50 @@ groups:
     match:
       method: "exact"
       tables:
-        - "AthenaLootPackages_Client"
-        - "LootCurrentSeasonLootPackages_Client"
+        - "/Game/Items/Datatables/AthenaLootPackages_Client"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootPackages_Client"
         - "OverrideLootPackagesData_NoBuildBR"
-        - "AthenaLootTierData_Client"
-        - "LootCurrentSeasonLootTierData_Client"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootTierData_Client"
+        - "/Game/Items/Datatables/AthenaLootTierData_Client"
         - "OverrideLootTierData_NoBuildBR"
     ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
     cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/NoBuild/作業用/NoBuild.py"]
+
+      # ---- Nobuild_Comp ----
+  - name: "Nobuild_Comp"
+    match:
+      method: "exact"
+      tables:
+        - "/Game/Items/Datatables/AthenaLootPackages_Client"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootPackages_Client"
+        - "OverrideLootPackagesData_NoBuildBR"
+        - "/LootCurrentSeason/DataTables/LootCurrentSeasonLootTierData_Client"
+        - "/Game/Items/Datatables/AthenaLootTierData_Client"
+        - "OverrideLootTierData_NoBuildBR"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/NoBuild/作業用/Nobuild_Comp.py"]
+
+    # ---- Figment ----
+  - name: "Figment"
+    match:
+      method: "exact"
+      tables:
+        - "/Figment_LootTables/DataTables/FigmentLootPackages"
+        - "/Figment_LootTables/DataTables/FigmentLootTierData"
+        - "/Figment_LootTables/DataTables/FigmentLootTierData_Backup"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "E:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/Figment/LootTier変更.py"]
+
+    # ---- Figment_NoBuild ----
+  - name: "Figment_NoBuild"
+    match:
+      method: "exact"
+      tables:
+        - "/Figment_LootTables/DataTables/FigmentLootPackages"
+        - "/Figment_LootTables/DataTables/FigmentLootTierData"
+        - "NoBuildFigmentLootTierData_Override"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "E:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/Figment/LootTier変更.py"]
 
   # ---- Reload ----
   - name: "Reload"

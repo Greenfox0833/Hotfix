@@ -126,7 +126,7 @@ def run_once():
         return
 
     if p.returncode == 100:
-        msg = "Hotfix差分なし。更新処理は行いません。"
+        msg = f"Hotfix差分なし。更新処理は行いません。{INTERVAL_SECONDS}秒待機中..."
         print("[AUTO]", msg)
         notify_info(msg)  # optional
         return

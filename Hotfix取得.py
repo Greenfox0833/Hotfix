@@ -263,15 +263,12 @@ def main():
             and sys.argv[1].lower().endswith((".py", ".bat", ".exe"))):
         args.message = sys.argv[1]
 
-    # 1) message.py を実行して client_token を生成
-    if args.message:
-        try:
-            if args.message.lower().endswith(".py"):
-                subprocess.run([sys.executable, args.message], check=True)
-            else:
-                subprocess.run([args.message], check=True)
-        except Exception as e:
-            print(f"message 実行に失敗: {e}", file=sys.stderr)
+    # まず既存のトークンを読みに行く
+    token = try_load_token_from_sources()
+
+    # 既存トークンが無い場合のみ message.py 実行
+    if not token and args.message:
+        token = refresh_token_via_message(args.message)
 
     # 2) tokens.json から client_token を読む
     token = None
