@@ -1,0 +1,106 @@
+# ===== HOTFIX 入力 =====
+hotfix:
+  file: "e:/フォートナイト/Picture/Loot Pool/TEST4/Hotfix.ini"  # 監視ファイル
+  fetch_cmd: null  # Hotfix取得コマンド（不要なら null）
+  # 例:
+  # fetch_cmd:
+  #   - python
+  #   - "E:/フォートナイト/Picture/Loot Pool/TEST4/Hotfix/Hotfix取得.py"
+  #   - --message
+  #   - "E:/フォートナイト/Picture/Loot Pool/TEST4/Hotfix/message.py"
+  encoding: "utf-8"
+  skip_same_hash: true      # ハッシュ同一ならスキップ
+  poll_sec: 30              # --watch 未指定時の既定間隔（秒）
+
+# ===== 実行の抑制（連打防止） =====
+cooldowns:
+  default_sec: 20           # 全グループ共通
+  per_group:                # グループごとの上書き
+    Reload: 5
+
+# ===== GitHub 反映（任意） =====
+git:
+  enable: false             # 使うなら true
+  repo_dir: "E:/フォートナイト/Git/loot-public"
+  branch: "main"
+  commit_targets:           # 追加するパス（相対/絶対OK）
+    - "docs/"
+    - "out/"
+    - "hotfix_all.txt"
+  commit_message: "auto: {group} updated ({count} events) [{tables}] @ {ts}"
+  # 認証はSSH推奨。PATなら remote URL にPAT埋め込み or 資格情報マネージャ使用。
+
+# ===== マッチ方法 =====
+# method: exact | regex | prefix | suffix
+# ops: RowAdd | RowRemove | RowDelete | RowUpdate
+
+groups:
+  # ---- BR ----
+  - name: "BR"
+    match:
+      method: "exact"
+      tables:
+        - "AthenaLootPackages_Client"
+        - "LootCurrentSeasonLootPackages_Client"
+        - "AthenaLootTierData_Client"
+        - "LootCurrentSeasonLootTierData_Client"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/BR/作業用/BR.py"]
+
+  # ---- BR_Comp ----
+  - name: "BR_Comp"
+    match:
+      method: "exact"
+      tables:
+        - "AthenaLootPackages_Client"
+        - "AthenaLootTierData_Client"
+        - "LootCurrentSeasonLootPackages_Client"
+        - "LootCurrentSeasonLootPackages_Client_Comp"
+        - "LootCurrentSeasonLootTierData_Client"
+        - "LootCurrentSeasonLootTierData_Client_Comp"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/BR_Comp/作業用/BR_Comp.py"]
+
+  # ---- ForbiddenFruit ----
+  - name: "ForbiddenFruit"
+    match:
+      method: "exact"
+      tables:
+        - "ForbiddenFruitChapterLootPackages"
+        - "AthenaLootPackages_Client_ForbiddenFruitChapterOverride_NoBuild"
+        - "ForbiddenFruitChapterLootTierData"
+        - "AthenaLootTierData_Client_ForbiddenFruitChapterOverride_NoBuild"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/ForbiddenFruit/作業用/ForbiddenFruit.py"]
+
+  # ---- Nobuild ----
+  - name: "Nobuild"
+    match:
+      method: "exact"
+      tables:
+        - "AthenaLootPackages_Client"
+        - "LootCurrentSeasonLootPackages_Client"
+        - "OverrideLootPackagesData_NoBuildBR"
+        - "AthenaLootTierData_Client"
+        - "LootCurrentSeasonLootTierData_Client"
+        - "OverrideLootTierData_NoBuildBR"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/NoBuild/作業用/NoBuild.py"]
+
+  # ---- Reload ----
+  - name: "Reload"
+    match:
+      method: "exact"
+      tables:
+        - "BlastBerryLootPackages"
+        - "BlastBerryLootTiers"
+    ops: ["RowAdd","RowRemove","RowDelete","RowUpdate"]
+    cmd: ["python", "e:/フォートナイト/Picture/Loot Pool/TEST4/New Loot/Reload/作業用/Reload.py"]
+
+# ===== 交差トリガー（例：BlastBerryLootPackages の Add/Remove/Delete で Reload を実行） =====
+cross_triggers:
+  - source:
+      method: "exact"
+      tables: ["BlastBerryLootPackages"]
+      ops: ["RowAdd","RowRemove","RowDelete"]
+    target_group: "Reload"
